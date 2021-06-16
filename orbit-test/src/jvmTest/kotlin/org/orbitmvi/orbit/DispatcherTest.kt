@@ -78,18 +78,14 @@ internal class DispatcherTest {
                 )
             )
         }
+        val action = Random.nextInt()
         runBlockingTest(testCoroutineDispatcher) {
-            val action = Random.nextInt()
-
-            // This should block
             testSubject.somethingInBackground(action)
-            testCoroutineDispatcher.advanceTimeBy(1010)
-
-            testSubject.assert(initialState) {
-                states(
-                    { copy(count = action) }
-                )
-            }
+        }
+        testSubject.assert(initialState) {
+            states(
+                { copy(count = action) }
+            )
         }
     }
 
@@ -99,10 +95,10 @@ internal class DispatcherTest {
 
         fun somethingInBackground(action: Int): Unit = intent {
 //            withContext(Dispatchers.Default) {
-                delay(1000)
-                reduce {
-                    State(count = action)
-                }
+            delay(100_000)
+            reduce {
+                State(count = action)
+            }
 //            }
         }
     }
