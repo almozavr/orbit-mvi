@@ -78,7 +78,7 @@ public open class RealContainer<STATE : Any, SIDE_EFFECT : Any>(
                 }
             }
             scope.launch {
-                val context = Dispatchers.Unconfined + (settings.exceptionHandler?.plus(SupervisorJob()) ?: EmptyCoroutineContext)
+                val context = settings.backgroundDispatcher + (settings.exceptionHandler?.plus(SupervisorJob()) ?: EmptyCoroutineContext)
 
                 for (msg in dispatchChannel) {
                     launch(context) { pluginContext.msg() }
